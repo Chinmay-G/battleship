@@ -115,4 +115,9 @@ class Player {
     }
 }
 
+
+function createSea() {
+
+}
+
 module.exports = { Ship, Gameboard };
