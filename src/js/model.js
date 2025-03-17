@@ -3,7 +3,7 @@ class Ship {
         shipLength: 0,
         hitsTaken: 0,
         sunk: false,
-        orientation: 'horizontal',
+        direction: 'horizontal',
     }
 
     constructor(len) {
@@ -25,28 +25,93 @@ class Ship {
     }
 
     rotate() {
-        if (this.stats.orientation === 'horizontal')
-            this.stats.orientation = 'vertical';
-        else this.stats.orientation = 'horizontal';
+        if (this.stats.direction === 'horizontal')
+            this.stats.direction = 'vertical';
+        else this.stats.direction = 'horizontal';
     }
 }
 
 class Gameboard {
-    board = []
+    board = [];
+    ships = [];
+    missedShots = [];
 
     constructor() {
-        this.board = new Array(100);
-        // for (let i = 0; i <= 9; i++) {
-        //     for (let j = 0; j <= 9; j++) {
-        //         this.board.push([i, j]);
-        //     }
-        // }
+        this.board = new Array(10).fill().map(() => Array(10).fill(null));
     }
 
-    place(ship, index) {
-        if (this.stats.orientation === 'horizontal') {
-
+    isValidPlacement(ship, [x, y]) {
+        if (ship.stats.direction === 'horizontal') {
+            if (x + ship.stats.shipLength > 10) return false;
+        } else {
+            if (y + ship.stats.shipLength > 10) return false;
         }
+
+        for (let i = 0; i < ship.stats.shipLength; i++) {
+            if (ship.stats.direction === 'horizontal') {
+                if (this.board[y][x + i] != null) return false;
+            } else {
+                if (this.board[y + i][x] != null) return false;
+            }
+        }
+
+        return true;
+    }
+
+    placeShip(ship, [x, y]) {
+        if (!this.isValidPlacement(ship, [x, y]))
+            return;
+
+        this.ships.push(ship);
+
+        if (ship.stats.direction === 'horizontal') {
+            for (let i = 0; i < ship.stats.shipLength; i++) {
+                this.board[y][x + i] = ship;
+            }
+        }
+        else {
+            for (let i = 0; i < ship.stats.shipLength; i++) {
+                this.board[y + i][x] = ship;
+            }
+        }
+    }
+
+    placeShipRandomly(ship) {
+        let placed = false;
+
+        while (!placed) {
+            const x = Math.floor(Math.random() * 10);
+            const y = Math.floor(Math.random() * 10);
+            ship.stats.direction = Math.floor(Math.random()) > 0.5 ? 'horizontal' : 'vertical';
+
+            if (this.isValidPlacement(ship, [x, y])) {
+                this.placeShip(ship, [x, y]);
+                placed = true;
+            }
+        }
+    }
+
+    receiveAttack([x, y]) {
+        const ship = this.board[y][x];
+        if (ship) {
+            ship.hit();
+        } else {
+            this.missedShots.push([x, y]);
+        }
+    }
+
+    isAllSunk() {
+        if (this.ships.every(ship => ship.stats.sunk === true))
+            return true;
+        return false;
+    }
+}
+
+class Player {
+    gameboard = new Gameboard();
+
+    constructor(type) {
+
     }
 }
 
