@@ -5,6 +5,7 @@
     /* text-align: center; */
 }
 
+/* Starter Page */
 .starterPage {
     display: none;
 }
@@ -25,10 +26,12 @@
     background-color: bisque;
 }
 
+/* ShipPlacementPage */
 .shipPlacementPage {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     justify-items: center;
+    display: none;
 }
 
 .shipPlacementPage-Heading {
@@ -62,3 +65,5 @@
 .ship5 {
     width: 100px;
 }
+
+/* GamePage */
