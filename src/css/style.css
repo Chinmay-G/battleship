@@ -16,6 +16,8 @@
     border: 2px solid black;
     display: grid;
     grid-template-columns: repeat(10, 1fr);
+    background-color: rgb(195, 195, 255);
+    background-color: rgb(100, 100, 255);
 }
 
 .seaBox {
@@ -29,6 +31,7 @@
 
 .seaBox:hover {
     background-color: bisque;
+    cursor: crosshair;
 }
 
 /* ShipPlacementPage */
