@@ -10,7 +10,7 @@
     display: none;
 }
 
-.sea {
+.sea, .player1Sea, .player2Sea {
     width: 500px;
     height: 500px;
     border: 2px solid black;
@@ -20,6 +20,9 @@
 
 .seaBox {
     border: 0.5px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .seaBox:hover {
@@ -67,3 +70,21 @@
 }
 
 /* GamePage */
+.gamePage {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-items: center;
+}
+
+.gamePage-Heading {
+    grid-column: 1 / 3;
+}
+
+.whosTurn {
+    grid-column: 1 / 3;
+}
+
+
+.shotMissed {
+    background-color: bisque;
+}

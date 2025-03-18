@@ -1,4 +1,4 @@
-class Ship {
+export class Ship {
     stats = {
         shipLength: 0,
         hitsTaken: 0,
@@ -31,7 +31,7 @@ class Ship {
     }
 }
 
-class Gameboard {
+export class Gameboard {
     board = [];
     ships = [];
     missedShots = [];
@@ -107,7 +107,7 @@ class Gameboard {
     }
 }
 
-class Player {
+export class Player {
     gameboard = new Gameboard();
 
     constructor(type) {
@@ -116,4 +116,5 @@ class Player {
 }
 
 
-module.exports = { Ship, Gameboard };
+
+// module.exports = { Ship, Gameboard, Player };
