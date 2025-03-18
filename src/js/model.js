@@ -34,10 +34,12 @@ export class Ship {
 export class Gameboard {
     board = [];
     ships = [];
-    missedShots = [];
+    missedShots;
 
     constructor() {
         this.board = new Array(10).fill().map(() => Array(10).fill(null));
+        this.ships = [];
+        this.missedShots = [];
     }
 
     isValidPlacement(ship, [x, y]) {
@@ -96,7 +98,7 @@ export class Gameboard {
         if (ship) {
             ship.hit();
         } else {
-            this.missedShots.push([x, y]);
+            this.missedShots.push([+x, +y]);
         }
     }
 

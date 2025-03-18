@@ -6,8 +6,8 @@ class View {
                 const div = document.createElement('div');
                 parent.appendChild(div);
                 div.classList.add('seaBox');
-                div.setAttribute('data-x', i);
-                div.setAttribute('data-y', j);
+                div.setAttribute('data-x', j);
+                div.setAttribute('data-y', i);
             }
         }
     }

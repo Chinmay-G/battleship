@@ -19,12 +19,31 @@ player2.gameboard.placeShip(player2Ship1, [0, 0]);
 
 player1Sea.addEventListener('click', function (e) {
     const target = e.target;
-    console.log(target);
-    const x = target.dataset.x;
-    const y = target.dataset.y;
-    player1.gameboard.receiveAttack([x, y]);
-    if (player1.gameboard.board[y][x] === null) {
-        target.classList.add('shotMissed');
-        target.textContent = 'x';
-    }
+    shoot(target);
 })
+
+function shoot(target) {
+    const x = +target.dataset.x;
+    const y = +target.dataset.y;
+    const coords = [x, y];
+    const missedShots = JSON.parse(JSON.stringify(player1.gameboard.missedShots));
+    console.log('Missed Shots - ', missedShots);
+
+    if (target.style.backgroundColor === 'lightblue' || target.style.backgroundColor === 'grey') {
+        console.log('Arldjd');
+        return;
+    }
+    console.log('MS Original - ', player1.gameboard.missedShots);
+    console.log(target);
+
+    player1.gameboard.receiveAttack([x, y]);
+
+    if (player1.gameboard.board[y][x] === null) {
+        // target.classList.add('shotMissed');
+        target.style.backgroundColor = 'lightblue';
+        target.textContent = 'x';
+    } else {
+        target.style.backgroundColor = 'grey';
+
+    }
+}
