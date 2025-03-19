@@ -111,9 +111,10 @@ export class Gameboard {
 
 export class Player {
     gameboard = new Gameboard();
+    name = 'player';
 
-    constructor(type) {
-
+    constructor(type, name) {
+        this.name = name;
     }
 }
 

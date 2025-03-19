@@ -7,45 +7,90 @@ const sea = document.querySelector('.sea');
 const player1Ship1 = new Ship(4);
 const player2Ship1 = new Ship(4);
 
-const player1 = new Player();
-const player2 = new Player();
+const player1 = new Player('_', 'player1');
+const player2 = new Player('_', 'player2');
 
 player1.gameboard.placeShip(player1Ship1, [0, 0]);
 player2.gameboard.placeShip(player2Ship1, [0, 0]);
 
-async function controlGame() {
+let gameEnds = false;
+
+function controlGame() {
     // 1. render two seas
     gameView.renderGameSeas();
+
     // 2. Let players shoot alternatively till all of ships of one player is sunk
 
-    let allSunk = false;
+    // May use LATER for refactoring // TEMP
+    // function handleClickOnSea(e) {
+    //     clickedOnSea(player2, this, e);
+    //     console.log(this);
+    //     if (gameEnds) return;
 
-    await gameView.attackSea(true, player1, player2);
+    //     gameView.addHandlerAttackSea1(handleClickOnSea1);
+    //     if (gameEnds) return;
 
-    const isDone = await gameView.attackSea(true, player1, player2);
-    const wt = await gameView.attackSea(true, player1, player2);
-    // await gameView.attackSea(false, player1);
-    // // let done = isDone.then((el) => el);
-    // setTimeout(() => console.log('Done? - ', isDone), 5000);
-    // if (isDone === 'Done')
-    console.log('later'); // executes right away
+    //     gameView.addHandlerAttackSea(handleClickOnSea);
+    // }
 
-    if (player1.gameboard.isAllSunk() === true)
-        allSunk = true;
-    if (player2.gameboard.isAllSunk() === true)
-        allSunk = true;
+    // function clickedOnSea(player, thiss, e) {
+    //     const target = e.target;
+    //     gameView.shoot(player, target);
 
-    // add handler to shoot Sea 1
+    //     // thiss.removeEventListener('click', thiss === gameView.player2Sea ? controlGame.handleClickOnSea : handleClickOnSea1);
+    //     // gameView.player2Sea.removeEventListener('click', handleClickOnSea);
+    //     // gameView.player1Sea.removeEventListener('click', handleClickOnSea1);
+    //     // console.log(player, player2);
+    //     // console.log(player === player2);
 
-    // remove handler to shoot Sea 1
+    //     if (player.gameboard.isAllSunk() === true) {
+    //         console.log('Player 1 Wins!!');
+    //         // gameView.showWinner(player1);
+    //         gameEnds = true;
+    //         return true;
+    //     }
+    //     return false
+    // }
 
-    // add handler to shoot Sea 2
+    // function handleClickOnSea1(e) {
+    //     clickedOnSea(player1, this, e);
+    // }
 
-    // remove handler to shoot Sea 2
 
-    // Repeat till one of players all ships are sunk
+    function handleClickOnSea(e) {
+        const target = e.target;
+        gameView.shoot(player2, target);
 
-    // gameView.shoot(player1);
+        // Remove handler to shoot Sea 2
+        this.removeEventListener('click', handleClickOnSea);
+
+        if (player2.gameboard.isAllSunk() === true) {
+            console.log('Player 1 Wins!!');
+            // gameView.showWinner(player1);
+            return;
+        }
+
+        // Add event handler to shoot Sea 1
+        gameView.player1Sea.addEventListener('click', function handleClickOnSea1(e) {
+            const target = e.target;
+            gameView.shoot(player1, target);
+
+            // Remove event handler to shoot Sea 1
+            this.removeEventListener('click', handleClickOnSea1);
+
+            if (player1.gameboard.isAllSunk() === true) {
+                console.log('Player 2 Wins!!');
+                // gameView.showWinner(player2);
+                return;
+            }
+
+            // Repeat till one of players all ships are sunk
+            gameView.addHandlerAttackSea(handleClickOnSea);
+        })
+    }
+
+    // Add handler to shoot Sea 2
+    gameView.addHandlerAttackSea(handleClickOnSea);
 
     // 3. Announce the winner
 }
@@ -58,3 +103,19 @@ controlGame();
 // })
 
 // gameView.addHandlerToSea(controlSea);
+
+// let arr = [];
+// function demoOutside() {
+//     console.log('start');
+//     if (demoInside(this) === true)
+//         return;
+//     console.log('end');
+// }
+// function demoInside(thiss) {
+//     console.log(thiss);
+//     arr.push(1);
+//     return true;
+// }
+// gameView.player1Sea.addEventListener('click', demoOutside);
+// // demoOutside();
+// console.log(arr);
