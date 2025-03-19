@@ -9,6 +9,37 @@ class GameView extends View {
         this.createSea(this.player2Sea);
     }
 
+    // Recieve Attack
+    attackSea(who, player1, player2) {
+        // const handleClickOnSea = (e) => {
+        //     const target = e.target;
+        //     this.shoot(player, target);
+        // }
+
+        const currClass = this;
+
+        // this.player1Sea.removeEventListener('click', handleClickOnSea);
+        // this.player2Sea.removeEventListener('click', handleClickOnSea);
+        if (who === true) {
+            this.player2Sea.addEventListener('click', function handleClickOnSea(e) {
+                const target = e.target;
+                currClass.shoot(player2, target);
+                this.removeEventListener('click', handleClickOnSea);
+
+                currClass.player1Sea.addEventListener('click', function handleClickOnSea(e) {
+                    const target = e.target;
+                    currClass.shoot(player1, target);
+                    this.removeEventListener('click', handleClickOnSea);
+                });
+
+                return 'Done';
+            });
+        }
+        if (who === false) {
+        }
+    }
+
+
     shoot(player, target) {
         const x = +target.dataset.x;
         const y = +target.dataset.y;
