@@ -35,6 +35,8 @@ class GameView extends View {
             target.textContent = 'x';
         } else {
             target.style.backgroundColor = 'rgb(231, 106, 106)';
+            // target.style.borderRight = 'none';
+            // target.style.borderLeft = 'none';
             target.textContent = '+';
         }
         // console.log(player.gameboard.missedShots);

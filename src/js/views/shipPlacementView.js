@@ -1,5 +1,5 @@
 import View from "./view.js";
 
-class ShipPlacementView extends View {
+export class ShipPlacementView extends View {
 
 }

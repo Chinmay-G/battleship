@@ -1,8 +1,52 @@
+import { Ship, Gameboard, Player } from "./model.js";
 import view from "./views/view.js";
 import gameView from "./views/gameView.js";
-import { Ship, Gameboard, Player } from "./model.js";
+import { ShipPlacementView } from "./views/shipPlacementView.js";
 
 const sea = document.querySelector('.sea');
+const shipsEl = document.querySelectorAll('.ship');
+
+function controlShipPlacement() {
+    const shipPlacementView = new ShipPlacementView();
+
+    shipPlacementView.createSea(sea);
+
+    for (let shipEl of shipsEl) {
+        shipEl.addEventListener('dragstart', function (e) {
+            let selected = e.target;
+            console.log(selected);
+
+            sea.addEventListener('dragover', function (e) {
+                e.preventDefault();
+            })
+            sea.addEventListener('drop', function (e) {
+                console.log(e.target);
+                const target = e.target;
+                const x = +target.dataset.x;
+                const y = +target.dataset.y;
+
+                const currShip = new Ship(shipEl.dataset.shipElLength);
+                console.log(currShip);
+                console.log(shipEl.dataset.shipElLength);
+
+                if (!player1.gameboard.isValidPlacement(currShip, [x, y]))
+                    return;
+
+                player1.gameboard.placeShip(currShip, [x, y]);
+
+                target.style.backgroundColor = 'rgb(231, 106, 106)';
+                if (currShip.stats.direction === 'horizontal') {
+                    console.log(target.nextSibling);
+                    console.log(currShip.stats.shipLength);
+                    for (let i = 1; i < currShip.stats.shipLength; i++)
+                        target.nextSibling.style.backgroundColor = 'rgb(231, 106, 106)';
+                }
+                // sea.appendChild(selected);
+            })
+        })
+    }
+}
+controlShipPlacement();
 
 const player1Ship1 = new Ship(5);
 const player1Ship2 = new Ship(4);
@@ -28,7 +72,7 @@ function controlGame() {
     gameView.renderGameSeas();
 
     // 2. Let players shoot alternatively till all of ships of one player is sunk and show the winner
-    let turn = true;
+    let turn = true; // Start from player 1's turn
 
     function handleClickOnSea(e) {
         const target = e.target;
@@ -65,8 +109,6 @@ function controlGame() {
 
     // Add handler to shoot Sea 2
     gameView.addHandlerAttackSea(handleClickOnSea);
-
-    // 3. Announce the winner
 }
 controlGame();
 
