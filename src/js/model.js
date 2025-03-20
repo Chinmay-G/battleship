@@ -97,6 +97,7 @@ export class Gameboard {
         const ship = this.board[y][x];
         if (ship) {
             ship.hit();
+            // console.log(ship.stats.shipLength);
         } else {
             this.missedShots.push([+x, +y]);
         }

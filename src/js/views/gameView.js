@@ -25,7 +25,7 @@ class GameView extends View {
         const y = +target.dataset.y;
 
         if (target.style.backgroundColor === 'rgb(195, 195, 255)' || target.style.backgroundColor === 'rgb(231, 106, 106)') {
-            return;
+            return true;
         }
 
         player.gameboard.receiveAttack([x, y]);
@@ -37,7 +37,7 @@ class GameView extends View {
             target.style.backgroundColor = 'rgb(231, 106, 106)';
             target.textContent = '+';
         }
-        console.log(player.gameboard.missedShots);
+        // console.log(player.gameboard.missedShots);
     }
 }
 
