@@ -25,31 +25,45 @@
         <div class="shipPlacementPage-Heading">
             <h1>Its time to set sail</h1>
         </div>
+        <div class="shipPlacementPage-Instruction">
+            <h4>Drag and drop to place ships</h4>
+            <h5>'Double click' on ships to rotate them before placing</h5>
+        </div>
 
         <div class="shipsAtHarbour">
             <div class="shipSpace">
-                <div class="ship ship1" draggable="true" data-shipElLength="5"></div>
+                <div class="ship ship1" draggable="true" data-shiplength="5" data-direction="horizontal">
+                    <div class="grab">Grab here |</div>
+                </div>
             </div>
             <div class="shipSpace">
-                <div class="ship ship2" draggable="true" data-shipElLength="4"></div>
+                <div class="ship ship2" draggable="true" data-shiplength="4" data-direction="horizontal">
+                    <div class="grab">Grab here |</div>
+                </div>
             </div>
             <div class="shipSpace">
-                <div class="ship ship3" draggable="true" data-shipElLength="3"></div>
+                <div class="ship ship3" draggable="true" data-shiplength="3" data-direction="horizontal">
+                    <div class="grab">Grab here |</div>
+                </div>
             </div>
             <div class="shipSpace">
-                <div class="ship ship4" draggable="true" data-shipElLength="3"></div>
+                <div class="ship ship4" draggable="true" data-shiplength="3" data-direction="horizontal">
+                    <div class="grab">Grab here |</div>
+                </div>
             </div>
             <div class="shipSpace">
-                <div class="ship ship5" draggable="true" data-shipElLength="2"></div>
+                <div class="ship ship5" draggable="true" data-shiplength="2" data-direction="horizontal">
+                    <div class="grab">Grab here |</div>
+                </div>
             </div>
         </div>
 
         <div class="sea"></div>
 
         <div class="options shipPlacementPage-Options">
-            <button class="shipPlacementPage-btn">Randomize Ship Placement</button>
-            <button class="shipPlacementPage-btn">Reset</button>
-            <button class="shipPlacementPage-btn">Ready to Play!</button>
+            <button class="shipPlacementPage-btn shipPlacementPage-btn-randomize">Randomize Ship Placement</button>
+            <button class="shipPlacementPage-btn shipPlacementPage-btn-reset">Reset</button>
+            <button class="shipPlacementPage-btn shipPlacementPage-btn-ready">Ready to Play!</button>
         </div>
     </div>
 

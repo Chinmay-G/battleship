@@ -6,8 +6,9 @@ export class Ship {
         direction: 'horizontal',
     }
 
-    constructor(len) {
+    constructor(len, direction) {
         this.stats.shipLength = len;
+        this.stats.direction = direction;
     }
 
     hit() {

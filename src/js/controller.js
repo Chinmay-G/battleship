@@ -6,64 +6,145 @@ import { ShipPlacementView } from "./views/shipPlacementView.js";
 const sea = document.querySelector('.sea');
 const shipsEl = document.querySelectorAll('.ship');
 
+const readyBtn = document.querySelector('.shipPlacementPage-btn-ready');
+
 function controlShipPlacement() {
     const shipPlacementView = new ShipPlacementView();
 
     shipPlacementView.createSea(sea);
 
+
+
     for (let shipEl of shipsEl) {
+        shipEl.addEventListener('dblclick', function (e) {
+            let selectedEl = e.target.closest('.ship');
+            console.log('double', selectedEl);
+            if (selectedEl.dataset.direction === 'horizontal') {
+                selectedEl.dataset.direction = 'vertical';
+                selectedEl.style.alignContent = 'baseline';
+            } else {
+                selectedEl.dataset.direction = 'horizontal';
+                selectedEl.style.alignContent = 'center';
+            }
+
+            let tempWidth = selectedEl.getBoundingClientRect().width;
+            selectedEl.style.width = selectedEl.getBoundingClientRect().height + 'px';
+            selectedEl.style.height = tempWidth + 'px';
+
+
+        })
+
         shipEl.addEventListener('dragstart', function (e) {
-            let selected = e.target;
-            console.log(selected);
+            let selectedEl = e.target;
 
             sea.addEventListener('dragover', function (e) {
                 e.preventDefault();
             })
+
             sea.addEventListener('drop', function (e) {
-                console.log(e.target);
+                console.log('drop area target - ', e.target);
                 const target = e.target;
                 const x = +target.dataset.x;
                 const y = +target.dataset.y;
 
-                const currShip = new Ship(shipEl.dataset.shipElLength);
-                console.log(currShip);
-                console.log(shipEl.dataset.shipElLength);
+                let currShip = new Ship(+selectedEl.dataset.shiplength, selectedEl.dataset.direction);
 
-                if (!player1.gameboard.isValidPlacement(currShip, [x, y]))
+                if (!player1.gameboard.isValidPlacement(currShip, [x, y])) {
+                    currShip = null;
+                    selectedEl = null;
                     return;
+                }
 
+                // Place ship in player's board
                 player1.gameboard.placeShip(currShip, [x, y]);
+                console.log('board - ', player1.gameboard.board);
 
                 target.style.backgroundColor = 'rgb(231, 106, 106)';
+
+                let nextEl = target;
+
                 if (currShip.stats.direction === 'horizontal') {
-                    console.log(target.nextSibling);
-                    console.log(currShip.stats.shipLength);
-                    for (let i = 1; i < currShip.stats.shipLength; i++)
-                        target.nextSibling.style.backgroundColor = 'rgb(231, 106, 106)';
+                    // Styling first box of the ship after placement
+                    target.style.borderTopLeftRadius = '50px';
+                    target.style.borderBottomLeftRadius = '50px';
+
+                    for (let i = 0; i < +selectedEl.dataset.shiplength; i++) {
+                        nextEl.style.backgroundColor = 'rgb(231, 106, 106)';
+                        nextEl.style.border = 'none';
+                        nextEl.textContent = '+';
+                        nextEl = nextEl.nextSibling;
+                    }
+                    // Styling last box of the ship after placement
+                    nextEl.previousSibling.style.borderTopRightRadius = '50px';
+                    nextEl.previousSibling.style.borderBottomRightRadius = '50px';
+
+                    // Clearing the placed ships from "shipHarbour"
+                    selectedEl.style.display = 'none';
                 }
-                // sea.appendChild(selected);
+                if (currShip.stats.direction === 'vertical') {
+                    // Styling first box of the ship after placement
+                    target.style.borderTopLeftRadius = '50px';
+                    target.style.borderTopRightRadius = '50px';
+
+                    for (let i = 0; i < +selectedEl.dataset.shiplength; i++) {
+                        nextEl.style.backgroundColor = 'rgb(231, 106, 106)';
+                        nextEl.style.border = 'none';
+                        nextEl.textContent = '+';
+                        nextEl = getNext10thEl(nextEl);
+                    }
+                    // Styling last box of the ship after placement
+                    getprevious10thEl(nextEl).style.borderBottomLeftRadius = '50px';
+                    getprevious10thEl(nextEl).style.borderBottomRightRadius = '50px';
+
+                    // Clearing the placed ships from "shipHarbour"
+                    selectedEl.style.display = 'none';
+                }
+
+                function getNext10thEl(el) {
+                    let nextEl = el;
+                    for (let i = 0; i < 10; i++)
+                        nextEl = nextEl.nextSibling;
+                    return nextEl;
+                }
+                function getprevious10thEl(el) {
+                    let nextEl = el;
+                    for (let i = 0; i < 10; i++)
+                        nextEl = nextEl.previousSibling;
+                    return nextEl;
+                }
+
+                currShip = null;
+                selectedEl = null;
             })
         })
     }
+
+    readyBtn.addEventListener('click', function (e) {
+        if (!(player1.gameboard.ships.length === 5)) {
+            alert('Please place all the remaining ships!');
+            return;
+        }
+        console.log('Clicked');
+    })
 }
 controlShipPlacement();
 
-const player1Ship1 = new Ship(5);
-const player1Ship2 = new Ship(4);
-const player1Ship3 = new Ship(3);
-const player2Ship1 = new Ship(5);
-const player2Ship2 = new Ship(4);
-const player2Ship3 = new Ship(3);
+// const player1Ship1 = new Ship(5);
+// const player1Ship2 = new Ship(4);
+// const player1Ship3 = new Ship(3);
+// const player2Ship1 = new Ship(5);
+// const player2Ship2 = new Ship(4);
+// const player2Ship3 = new Ship(3);
 
 const player1 = new Player('_', 'player1');
 const player2 = new Player('_', 'player2');
 
-player1.gameboard.placeShip(player1Ship1, [0, 0]);
-player1.gameboard.placeShip(player1Ship2, [0, 1]);
-player1.gameboard.placeShip(player1Ship3, [0, 2]);
-player2.gameboard.placeShip(player2Ship1, [0, 0]);
-player2.gameboard.placeShip(player2Ship2, [0, 1]);
-player2.gameboard.placeShip(player2Ship3, [0, 2]);
+// player1.gameboard.placeShip(player1Ship1, [0, 0]);
+// player1.gameboard.placeShip(player1Ship2, [0, 1]);
+// player1.gameboard.placeShip(player1Ship3, [0, 2]);
+// player2.gameboard.placeShip(player2Ship1, [0, 0]);
+// player2.gameboard.placeShip(player2Ship2, [0, 1]);
+// player2.gameboard.placeShip(player2Ship3, [0, 2]);
 
 
 
