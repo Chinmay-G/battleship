@@ -21,11 +21,11 @@ readyBtn.addEventListener('click', function (e) {
     //     return;
     // }
     if (player1.gameboard.ships.length === 5 && player2.gameboard.ships.length === 0) {
-        shipPlacementView2.resetUI();
+        shipPlacementView1.resetUI();
         const sea = document.querySelector('.sea');
         // shipPlacementView2.createSea(sea);
         // debugger;
-        shipPlacementView2.controlShipPlacement(player2, Ship);
+        shipPlacementView1.controlShipPlacement(player2, Ship);
         // letP2PlaceShips();
         console.log('player 2\'s turn');
     }

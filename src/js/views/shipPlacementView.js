@@ -27,23 +27,16 @@ class ShipPlacementView extends View {
             // shipEl.style.display = '';
 
             // Rotate ship when doubleclicked on it
-            shipEl.addEventListener('dblclick', function (e) {
-                let selectedEl = e.target.closest('.ship');
-                console.log(e.target.closest('.ship'));
-                this.rotateShip(selectedEl);
-            }.bind(this))
+            shipEl.addEventListener('dblclick', this.handleDoubleClick.bind(this))
 
             // Drag the ship element
-            shipEl.addEventListener('dragstart', function (e) {
+            shipEl.addEventListener('dragstart', function handleDragStart(e) {
                 let selectedEl = e.target;
 
-                this.sea.addEventListener('dragover', function (e) {
-                    e.preventDefault();
-                    console.log(player.name);
-                }.bind(this))
+                this.sea.addEventListener('dragover', this.handleDragOver.bind(this))
 
                 // Drop the ship element
-                this.sea.addEventListener('drop', function (e) {
+                this.sea.addEventListener('drop', function handleDrop(e) {
                     const target = e.target; // drop area
                     const x = +target.dataset.x;
                     const y = +target.dataset.y;
@@ -89,11 +82,16 @@ class ShipPlacementView extends View {
 
                         // Clearing the placed ships from "shipHarbour"
                         selectedEl.style.display = 'none';
+                        selectedEl.removeEventListener('dblclick', this.handleDoubleClick);
                     }
+
+                    shipEl.removeEventListener('dragstart', handleDragStart);
+                    this.sea.removeEventListener('drop', handleDrop);
+                    this.sea.removeEventListener('dragover', this.handleDragOver);
 
                     currShip = null;
                     selectedEl = null;
-                })
+                }.bind(this))
             }.bind(this))
         }
 
@@ -113,6 +111,19 @@ class ShipPlacementView extends View {
             }
             console.log('Clicked');
         }.bind(this));
+    }
+
+    handleDoubleClick(e) {
+        let selectedEl = e.target.closest('.ship');
+        console.log(e.target.closest('.ship'));
+        console.log(selectedEl.getBoundingClientRect().width);
+        // selectedEl.style.width = '20px';
+        this.rotateShip(selectedEl);
+    }
+
+    handleDragOver(e) {
+        e.preventDefault();
+        // console.log(player.name);
     }
 
     rotateShip(selectedEl) {
