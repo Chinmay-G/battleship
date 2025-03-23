@@ -6,8 +6,10 @@ class ShipPlacementView extends View {
     shipPlacementPage = document.querySelector('.shipPlacementPage');
     whosTurn = document.querySelector('.whosTurn');
     sea = document.querySelector('.sea');
+    seaBoxAll = document.querySelectorAll('.seaBox');
     shipsEl = document.querySelectorAll('.ship');
     readyBtn = document.querySelector('.shipPlacementPage-btn-ready');
+    randomizeBtn = document.querySelector('.shipPlacementPage-btn-randomize');
 
     controlShipPlacement(player, Ship) {
 
@@ -31,6 +33,8 @@ class ShipPlacementView extends View {
                 return;
             }
         }.bind(this));
+
+        this.randomizeBtn.addEventListener('click', this.randomizeShipPlacement(player, Ship).bind(this));
     }
 
     handleDoubleClick(player) {
@@ -142,6 +146,43 @@ class ShipPlacementView extends View {
                 this.rotateShip(ship);
         })
         return;
+    }
+
+
+    randomizeShipPlacement(player, Ship) {
+        return function curriedFunc(e) {
+            const board = player.gameboard.board;
+            for (let shipEl of this.shipsEl) {
+                let currShip = new Ship(+shipEl.dataset.shiplength, shipEl.dataset.direction);
+                player.gameboard.placeShipRandomly(currShip);
+            }
+
+            for (let i = 0; i < 10; i++) {
+                for (let j = 0; j < 10; j++) {
+
+                    for (let seaBox of this.seaBoxAll) {
+                        const x = seaBox.dataset.x;
+                        const y = seaBox.dataset.y;
+
+                        if (board[i] === y && board[j] === x) {
+
+                            seaBox.backgroundColor = 'rgb(231, 106, 106)';
+                            seaBox.textContent = '+';
+
+                            if (board[i][j].stats.direction === 'horizontal') {
+                                seaBox.style.borderRight = 'none';
+                                seaBox.style.borderLeft = 'none';
+                            }
+                            if (board[i][j].stats.direction === 'vertical') {
+                                seaBox.style.borderTop = 'none';
+                                seaBox.style.borderBottom = 'none';
+                            }
+                        }
+                    }
+                }
+            }
+            console.log(board);
+        }
     }
 }
 
