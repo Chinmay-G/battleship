@@ -32,8 +32,11 @@ readyBtn.addEventListener('click', function (e) {
     }
 })
 
-
 // const player1Ship1 = new Ship(5);
+// player1.gameboard.placeShipRandomly(player1Ship1);
+// console.log(player1.gameboard.board);
+// console.log(player1Ship1.stats);
+
 // const player1Ship2 = new Ship(4);
 // const player1Ship3 = new Ship(3);
 // const player2Ship1 = new Ship(5);

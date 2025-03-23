@@ -4,6 +4,7 @@ export class Ship {
         hitsTaken: 0,
         sunk: false,
         direction: 'horizontal',
+        shipIcon: '',
     }
 
     constructor(len, direction) {
@@ -67,6 +68,23 @@ export class Gameboard {
 
         this.ships.push(ship);
 
+        if (ship.stats.shipLength === 5) {
+            ship.stats.shipIcon = '⛴️'
+            ship.stats.backgroundColor = 'black'
+        };
+        if (ship.stats.shipLength === 4) {
+            ship.stats.shipIcon = '🛳️'
+            ship.stats.backgroundColor = 'rgb(255, 110, 25)'
+        };
+        if (ship.stats.shipLength === 3) {
+            ship.stats.shipIcon = '🛥️'
+            ship.stats.backgroundColor = 'orange'
+        };
+        if (ship.stats.shipLength === 2) {
+            ship.stats.shipIcon = '🚤'
+            ship.stats.backgroundColor = 'yellow'
+        };
+
         if (ship.stats.direction === 'horizontal') {
             for (let i = 0; i < ship.stats.shipLength; i++) {
                 this.board[y][x + i] = ship;
@@ -85,7 +103,7 @@ export class Gameboard {
         while (!placed) {
             const x = Math.floor(Math.random() * 10);
             const y = Math.floor(Math.random() * 10);
-            ship.stats.direction = Math.floor(Math.random()) > 0.5 ? 'horizontal' : 'vertical';
+            ship.stats.direction = Math.random() > 0.5 ? 'horizontal' : 'vertical';
 
             if (this.isValidPlacement(ship, [x, y])) {
                 this.placeShip(ship, [x, y]);

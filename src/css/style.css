@@ -23,7 +23,7 @@
 .seaBox {
     width: 50px;
     height: 50px;
-    border: 0.5px solid black;
+    border: 0.5px solid whitesmoke;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -91,18 +91,24 @@
 
 .ship1 {
     width: 250px;
+    background-color: red;
+    background-color: rgb(255, 61, 61);
     /* grid-template-columns: repeat(5, 1fr); */
 }
 .ship2 {
     width: 200px;
+    background-color: rgb(255, 115, 0);
+    background-color: rgb(255, 110, 25);
     /* grid-template-columns: repeat(4, 1fr); */
 }
 .ship3, .ship4 {
     width: 150px;
+    background-color: orange;
     /* grid-template-columns: repeat(3, 1fr); */
 }
 .ship5 {
     width: 100px;
+    background-color: yellow;
     /* grid-template-columns: repeat(2, 1fr); */
 }
 
@@ -126,6 +132,11 @@
 .shotMissed {
     background-color: bisque;
 }
+
+.restart-btn {
+
+}
+
 
 .hidden {
     display: none;

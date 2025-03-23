@@ -10,9 +10,10 @@ class ShipPlacementView extends View {
     shipsEl = document.querySelectorAll('.ship');
     readyBtn = document.querySelector('.shipPlacementPage-btn-ready');
     randomizeBtn = document.querySelector('.shipPlacementPage-btn-randomize');
+    resetBtn = document.querySelector('.shipPlacementPage-btn-reset');
 
     controlShipPlacement(player, Ship) {
-
+        // Display who's turn to place ships
         this.whosTurn.textContent = `${player.name.slice(0, 1).toUpperCase() + player.name.slice(1)}\'s Turn`;
 
         // Create sea layout
@@ -29,12 +30,14 @@ class ShipPlacementView extends View {
         // Ready to play button
         this.readyBtn.addEventListener('click', function (e) {
             if (!(player.gameboard.ships.length === 5)) {
-                alert('Please place all the remaining ships!');
+                alert('Please place all the remaining ships! 🚢');
                 return;
             }
         }.bind(this));
 
-        this.randomizeBtn.addEventListener('click', this.randomizeShipPlacement(player, Ship).bind(this));
+        this.randomizeBtn.addEventListener('click', this.handleRandomizeBtn(player, Ship).bind(this));
+
+        this.resetBtn.addEventListener('click', this.handleResetBtn(player).bind(this));
     }
 
     handleDoubleClick(player) {
@@ -57,7 +60,7 @@ class ShipPlacementView extends View {
             this.sea.addEventListener('dragover', this.handleDragOver)
 
             // Drop the ship element
-            this.sea.addEventListener('drop', this.handleDrop(selectedEl, player, Ship).bind(this))
+            this.sea.addEventListener('drop', this.handleDrop(selectedEl, player, Ship))
         }.bind(this);
     }
 
@@ -68,7 +71,7 @@ class ShipPlacementView extends View {
     handleDrop(selectedEl, player, Ship) {
         return function curriedFunc(e) {
             // Prevent player1's gameboard movements after all the placements
-            if (player.gameboard.ships.length === 5) return;
+            if (player.gameboard.ships.length === 5 || !selectedEl) return;
 
             const target = e.target; // drop area
             const x = +target.dataset.x;
@@ -85,19 +88,22 @@ class ShipPlacementView extends View {
             // Place ship in player's board
             player.gameboard.placeShip(currShip, [x, y]);
             console.log('board - ', player.gameboard.board);
+            const shipIcon = selectedEl.dataset.shipicon;
 
             target.style.backgroundColor = 'rgb(231, 106, 106)';
+            target.textContent = shipIcon;
 
             let nextEl = target;
 
             if (currShip.stats.direction === 'horizontal') {
 
-                for (let i = 0; i < +selectedEl.dataset.shiplength; i++) {
+                nextEl.style.borderRight = 'none';
+                for (let i = 1; i < +selectedEl.dataset.shiplength; i++) {
+                    nextEl = nextEl.nextSibling;
                     nextEl.style.backgroundColor = 'rgb(231, 106, 106)';
                     nextEl.style.borderRight = 'none';
                     nextEl.style.borderLeft = 'none';
-                    nextEl.textContent = '+';
-                    nextEl = nextEl.nextSibling;
+                    nextEl.textContent = shipIcon;
                 }
 
                 // Clearing the placed ships from "shipHarbour"
@@ -105,12 +111,14 @@ class ShipPlacementView extends View {
             }
 
             if (currShip.stats.direction === 'vertical') {
-                for (let i = 0; i < +selectedEl.dataset.shiplength; i++) {
+
+                nextEl.style.borderBottom = 'none';
+                for (let i = 1; i < +selectedEl.dataset.shiplength; i++) {
+                    nextEl = getNext10thEl(nextEl);
                     nextEl.style.backgroundColor = 'rgb(231, 106, 106)';
                     nextEl.style.borderTop = 'none';
                     nextEl.style.borderBottom = 'none';
-                    nextEl.textContent = '+';
-                    nextEl = getNext10thEl(nextEl);
+                    nextEl.textContent = shipIcon;
                 }
 
                 // Clearing the placed ships from "shipHarbour"
@@ -149,31 +157,50 @@ class ShipPlacementView extends View {
     }
 
 
-    randomizeShipPlacement(player, Ship) {
+    handleRandomizeBtn(player, Ship) {
         return function curriedFunc(e) {
+            const playerName = this.whosTurn.textContent.toLowerCase().slice(0, 7);
+            if (playerName != player.name)
+                return;
+
+            const seaBoxAll = document.querySelectorAll('.seaBox');
+
+            // Reset all
+            player.gameboard.board = new Array(10).fill().map(() => Array(10).fill(null));
+            player.gameboard.ships = [];
+            seaBoxAll.forEach(seaBox => {
+                seaBox.style.backgroundColor = '';
+                seaBox.textContent = '';
+                seaBox.style.border = '';
+            });
+
             const board = player.gameboard.board;
+
+            // Place all ships randomly
             for (let shipEl of this.shipsEl) {
-                let currShip = new Ship(+shipEl.dataset.shiplength, shipEl.dataset.direction);
+                let currShip = new Ship(+shipEl.dataset.shiplength);
                 player.gameboard.placeShipRandomly(currShip);
             }
+
 
             for (let i = 0; i < 10; i++) {
                 for (let j = 0; j < 10; j++) {
 
-                    for (let seaBox of this.seaBoxAll) {
+                    // seaBoxAll.forEach(seaBox => {
+                    for (let seaBox of seaBoxAll) {
                         const x = seaBox.dataset.x;
                         const y = seaBox.dataset.y;
 
-                        if (board[i] === y && board[j] === x) {
-
-                            seaBox.backgroundColor = 'rgb(231, 106, 106)';
+                        if (board[y][x] != null) {
+                            // console.log(board[y][x]);
+                            seaBox.style.backgroundColor = 'rgb(231, 106, 106)';
                             seaBox.textContent = '+';
 
-                            if (board[i][j].stats.direction === 'horizontal') {
-                                seaBox.style.borderRight = 'none';
+                            if (board[y][x].stats.direction === 'horizontal') {
                                 seaBox.style.borderLeft = 'none';
+                                seaBox.style.borderRight = 'none';
                             }
-                            if (board[i][j].stats.direction === 'vertical') {
+                            if (board[y][x].stats.direction === 'vertical') {
                                 seaBox.style.borderTop = 'none';
                                 seaBox.style.borderBottom = 'none';
                             }
@@ -181,7 +208,22 @@ class ShipPlacementView extends View {
                     }
                 }
             }
+            // Clear all ships from display
+            this.shipsEl.forEach(shipEl => shipEl.style.display = 'none');
             console.log(board);
+        }
+    }
+
+    handleResetBtn(player) {
+        return function curriedFunc(e) {
+            const playerName = this.whosTurn.textContent.toLowerCase().slice(0, 7);
+            if (playerName != player.name)
+                return;
+
+            player.gameboard.ships = [];
+            player.gameboard.board = new Array(10).fill().map(() => Array(10).fill(null));
+            this.resetUI();
+            this.createSea(this.sea);
         }
     }
 }
