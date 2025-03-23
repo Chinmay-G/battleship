@@ -3,7 +3,10 @@ import view from "./views/view.js";
 import gameView from "./views/gameView.js";
 import { shipPlacementView1, shipPlacementView2 } from "./views/shipPlacementView.js";
 
+
+const shipPlacementPage = document.querySelector('.shipPlacementPage');
 const readyBtn = document.querySelector('.shipPlacementPage-btn-ready');
+const gamePage = document.querySelector('.gamePage');
 
 // function 
 
@@ -14,30 +17,20 @@ shipPlacementView1.controlShipPlacement(player1, Ship);
 
 readyBtn.addEventListener('click', function (e) {
     e.preventDefault();
-    console.log('controller');
-    // if ((!(player1.gameboard.ships.length === 5) && player2.gameboard.ships.length === 0) ||
-    //     (player1.gameboard.ships.length === 5 && !(player2.gameboard.ships.length === 5))) {
-    //     // alert('Please place all the remaining ships!');
-    //     return;
-    // }
+
+    // When player1 has finished placing and it's player 2's turn next
     if (player1.gameboard.ships.length === 5 && player2.gameboard.ships.length === 0) {
         shipPlacementView1.resetUI();
-        const sea = document.querySelector('.sea');
-        // shipPlacementView2.createSea(sea);
-        // debugger;
-        shipPlacementView1.controlShipPlacement(player2, Ship);
-        // letP2PlaceShips();
-        console.log('player 2\'s turn');
+        shipPlacementView2.controlShipPlacement(player2, Ship);
     }
 
+    // When both player1 and player2 has finished placing all ships
     if (player1.gameboard.ships.length === 5 && player2.gameboard.ships.length === 5) {
+        shipPlacementPage.classList.add('hidden');
+        gamePage.classList.remove('hidden');
         controlGame();
     }
 })
-
-function letP2PlaceShips() {
-    shipPlacementView2.controlShipPlacement(player2, Ship);
-}
 
 
 // const player1Ship1 = new Ship(5);

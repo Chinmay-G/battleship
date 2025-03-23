@@ -2,17 +2,12 @@ import View from "./view.js";
 import { getNext10thEl } from "../helper.js";
 
 class ShipPlacementView extends View {
-    shipPlacementPage = document.querySelector('.shipPlacementPage');
-    gamePage = document.querySelector('.gamePage');
 
+    shipPlacementPage = document.querySelector('.shipPlacementPage');
     whosTurn = document.querySelector('.whosTurn');
     sea = document.querySelector('.sea');
     shipsEl = document.querySelectorAll('.ship');
-
     readyBtn = document.querySelector('.shipPlacementPage-btn-ready');
-
-    shipPlacementPageHTML = this.shipPlacementPage.innerHTML;
-
 
     controlShipPlacement(player, Ship) {
 
@@ -22,77 +17,11 @@ class ShipPlacementView extends View {
         this.createSea(this.sea);
 
         for (let shipEl of this.shipsEl) {
-
-            // Let ships be displayed
-            // shipEl.style.display = '';
-
             // Rotate ship when doubleclicked on it
-            shipEl.addEventListener('dblclick', this.handleDoubleClick.bind(this))
+            shipEl.addEventListener('dblclick', this.handleDoubleClick(player).bind(this))
 
             // Drag the ship element
-            shipEl.addEventListener('dragstart', function handleDragStart(e) {
-                let selectedEl = e.target;
-
-                this.sea.addEventListener('dragover', this.handleDragOver.bind(this))
-
-                // Drop the ship element
-                this.sea.addEventListener('drop', function handleDrop(e) {
-                    const target = e.target; // drop area
-                    const x = +target.dataset.x;
-                    const y = +target.dataset.y;
-
-                    let currShip = new Ship(+selectedEl.dataset.shiplength, selectedEl.dataset.direction);
-
-                    if (!player.gameboard.isValidPlacement(currShip, [x, y])) {
-                        currShip = null;
-                        selectedEl = null;
-                        return;
-                    }
-
-                    // Place ship in player's board
-                    player.gameboard.placeShip(currShip, [x, y]);
-                    console.log('board - ', player.gameboard.board);
-
-                    target.style.backgroundColor = 'rgb(231, 106, 106)';
-
-                    let nextEl = target;
-
-                    if (currShip.stats.direction === 'horizontal') {
-
-                        for (let i = 0; i < +selectedEl.dataset.shiplength; i++) {
-                            nextEl.style.backgroundColor = 'rgb(231, 106, 106)';
-                            nextEl.style.borderRight = 'none';
-                            nextEl.style.borderLeft = 'none';
-                            nextEl.textContent = '+';
-                            nextEl = nextEl.nextSibling;
-                        }
-
-                        // Clearing the placed ships from "shipHarbour"
-                        selectedEl.style.display = 'none';
-                    }
-
-                    if (currShip.stats.direction === 'vertical') {
-                        for (let i = 0; i < +selectedEl.dataset.shiplength; i++) {
-                            nextEl.style.backgroundColor = 'rgb(231, 106, 106)';
-                            nextEl.style.borderTop = 'none';
-                            nextEl.style.borderBottom = 'none';
-                            nextEl.textContent = '+';
-                            nextEl = getNext10thEl(nextEl);
-                        }
-
-                        // Clearing the placed ships from "shipHarbour"
-                        selectedEl.style.display = 'none';
-                        selectedEl.removeEventListener('dblclick', this.handleDoubleClick);
-                    }
-
-                    shipEl.removeEventListener('dragstart', handleDragStart);
-                    this.sea.removeEventListener('drop', handleDrop);
-                    this.sea.removeEventListener('dragover', this.handleDragOver);
-
-                    currShip = null;
-                    selectedEl = null;
-                }.bind(this))
-            }.bind(this))
+            shipEl.addEventListener('dragstart', this.handleDragStart(player, Ship).bind(this))
         }
 
         // Ready to play button
@@ -101,29 +30,92 @@ class ShipPlacementView extends View {
                 alert('Please place all the remaining ships!');
                 return;
             }
-            else if (player.name === 'player1') {
-                this.sea.innerHTML = '';
-                // return;
-            }
-            if (player.name === 'player2') {
-                this.shipPlacementPage.display = 'none';
-                this.gamePage.display = '';
-            }
-            console.log('Clicked');
         }.bind(this));
     }
 
-    handleDoubleClick(e) {
-        let selectedEl = e.target.closest('.ship');
-        console.log(e.target.closest('.ship'));
-        console.log(selectedEl.getBoundingClientRect().width);
-        // selectedEl.style.width = '20px';
-        this.rotateShip(selectedEl);
+    handleDoubleClick(player) {
+        return function curriedFunc(e) {
+            // Prevent player1's gameboard movements after all the placements
+            if (player.gameboard.ships.length === 5) return;
+
+            let selectedEl = e.target.closest('.ship');
+            this.rotateShip(selectedEl);
+        }
+    }
+
+    handleDragStart(player, Ship) {
+        return function curriedFunc(e) {
+            // Prevent player1's gameboard movements after all the placements
+            if (player.gameboard.ships.length === 5) return;
+
+            let selectedEl = e.target;
+
+            this.sea.addEventListener('dragover', this.handleDragOver)
+
+            // Drop the ship element
+            this.sea.addEventListener('drop', this.handleDrop(selectedEl, player, Ship).bind(this))
+        }.bind(this);
     }
 
     handleDragOver(e) {
         e.preventDefault();
-        // console.log(player.name);
+    }
+
+    handleDrop(selectedEl, player, Ship) {
+        return function curriedFunc(e) {
+            // Prevent player1's gameboard movements after all the placements
+            if (player.gameboard.ships.length === 5) return;
+
+            const target = e.target; // drop area
+            const x = +target.dataset.x;
+            const y = +target.dataset.y;
+
+            let currShip = new Ship(+selectedEl.dataset.shiplength, selectedEl.dataset.direction);
+
+            if (!player.gameboard.isValidPlacement(currShip, [x, y])) {
+                currShip = null;
+                selectedEl = null;
+                return;
+            }
+
+            // Place ship in player's board
+            player.gameboard.placeShip(currShip, [x, y]);
+            console.log('board - ', player.gameboard.board);
+
+            target.style.backgroundColor = 'rgb(231, 106, 106)';
+
+            let nextEl = target;
+
+            if (currShip.stats.direction === 'horizontal') {
+
+                for (let i = 0; i < +selectedEl.dataset.shiplength; i++) {
+                    nextEl.style.backgroundColor = 'rgb(231, 106, 106)';
+                    nextEl.style.borderRight = 'none';
+                    nextEl.style.borderLeft = 'none';
+                    nextEl.textContent = '+';
+                    nextEl = nextEl.nextSibling;
+                }
+
+                // Clearing the placed ships from "shipHarbour"
+                selectedEl.style.display = 'none';
+            }
+
+            if (currShip.stats.direction === 'vertical') {
+                for (let i = 0; i < +selectedEl.dataset.shiplength; i++) {
+                    nextEl.style.backgroundColor = 'rgb(231, 106, 106)';
+                    nextEl.style.borderTop = 'none';
+                    nextEl.style.borderBottom = 'none';
+                    nextEl.textContent = '+';
+                    nextEl = getNext10thEl(nextEl);
+                }
+
+                // Clearing the placed ships from "shipHarbour"
+                selectedEl.style.display = 'none';
+            }
+
+            currShip = null;
+            selectedEl = null;
+        }
     }
 
     rotateShip(selectedEl) {
@@ -143,14 +135,12 @@ class ShipPlacementView extends View {
 
     resetUI() {
         this.sea.innerHTML = '';
-        // this.createSea(this.sea);
 
         this.shipsEl.forEach(ship => {
             ship.style.display = '';
             if (ship.dataset.direction === 'vertical')
                 this.rotateShip(ship);
         })
-        // this.shipPlacementPage.innerHTML = this.shipPlacementPageHTML;
         return;
     }
 }

@@ -111,7 +111,7 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     justify-items: center;
-    display: none;
+    /* display: none; */
 }
 
 .gamePage-Heading {
@@ -125,4 +125,8 @@
 
 .shotMissed {
     background-color: bisque;
+}
+
+.hidden {
+    display: none;
 }
