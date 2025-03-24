@@ -3,13 +3,103 @@
     /* padding: 0; */
     /* justify-content: center; */
     /* text-align: center; */
+    margin: 0;
+    padding: 0;
+    font-family:sans-serif;
+}
+
+body {
+    /* background-color: blueviolet; */
+    /* background-image: url("https://media.tenor.com/2FL76f6q7u8AAAAi/explosion.gif");
+    background-image: url("src/imgs/explosion.gif"); */
 }
 
 /* Starter Page */
 .starterPage {
-    display: none;
+    width: 100vw;
+    height: 100vh;
+    background-image: url("../imgs/battleshipBackground.gif");
+    background-repeat: no-repeat;
+    background-size: 100vw 100vh;
+
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
+.starterPage-Container {
+    background-color: rgba(245, 245, 245, 0.7);
+    /* background-color: rgba(0, 0, 0, 0.7); */
+    /* background-color: rgba(0, 0, 0, 0.7); */
+    border-radius: 5px;
+    /* padding: 20px; */
+    /* opacity: 50%; */
+}
+
+.starterPage-Title {
+    /* background-color: rgba(245, 245, 245, 0.701); */
+    padding: 50px 50px 0 50px;
+}
+
+.starterPage-Container h1 {
+    font-weight: 900;
+    color: rgb(70, 80, 80);
+    color: white;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding-top: 30px;
+}
+
+.inputPlayersNameContainer {
+    padding: 50px 30px 40px 30px;
+    gap: 40px;
+
+    color: rgb(81, 83, 83);
+    color: white;
+    font-size: large;
+    background-color: rgba(0, 0, 0, 0.7);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 75px;
+}
+
+.playerInputField {
+    font-weight: 600;
+}
+
+.playerInputField input {
+    border: none;
+    height: 35px;
+    width: 170px;
+    border-radius: 4px;
+
+    color: whitesmoke;
+    text-align: center;
+    background-color: black;
+    opacity: 70%;
+}
+
+.submitPlayersNameBtnContainer {
+    background-color: rgba(0, 0, 0, 0.7);
+    padding-top: 10px;
+    padding-bottom: 30px;
+}
+
+.submitPlayersNameBtn {
+    width: 150px;
+    height: 40px;
+    border: none;
+    border-radius: 7px;
+    box-shadow: 4px 4px 4px black;
+
+    background-color: whitesmoke;
+    color: black;
+    font-weight: 800;
+}
+
+/* Sea layout */
 .sea, .player1Sea, .player2Sea {
     min-width: 500px;
     min-height: 500px;

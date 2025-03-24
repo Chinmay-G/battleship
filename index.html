@@ -10,18 +10,32 @@
 </head>
 
 <body>
+    <!-- Starter Page -->
     <div class="starterPage">
         <div class="starterPage-Container">
-            <h1>BATTLESHIP</h1>
-            <h3>SINK or get SUNK!</h3>
-            <div class="playerChoice">
-                <button class="starterPage-btn person">Person</button>
-                <button class="starterPage-btn computer">Computer</button>
+            <img class="starterPage-Title" src="src/imgs/title.png" alt="BATTLESHIP">
+            <h1>⚠️ SINK or get SUNK ⚠️</h1>
+            <div class="inputPlayersNameContainer">
+                <!-- <button class="starterPage-btn person">Person</button>
+                <button class="starterPage-btn computer">Computer</button> -->
+                <div class="playerInputField player1InputField">
+                    <label for="#player1Name">Player 1 : &nbsp</label><br><br>
+                    <input type="text" name="player1Name" id="player1Name" placeholder="Player1's Name">
+                </div>
+                <img src="src/imgs/battleshipIcon1.png" alt="">
+                <div class="playerInputField player2InputField">
+                    <label for="#player2Name">Player 2 : &nbsp</label><br><br>
+                    <input type="text" name="player2Name" id="player2Name" placeholder="Player2's Name">
+                </div>
+            </div>
+            <div class="submitPlayersNameBtnContainer">
+                <button type="submit" class="submitPlayersNameBtn">ENTER BATTLE ☠️</button>
             </div>
         </div>
     </div>
 
-    <div class="shipPlacementPage">
+    <!-- Ship Placement Page -->
+    <div class="shipPlacementPage hidden">
         <div class="shipPlacementPage-Heading">
             <h1>It's time to set sail</h1>
         </div>
@@ -73,6 +87,7 @@
         </div>
     </div>
 
+    <!-- Game Page -->
     <div class="gamePage hidden">
         <div class="gamePage-Heading">Game on! Shoot To Sink!</div>
         <div class="whosTurn">Player's turn</div>

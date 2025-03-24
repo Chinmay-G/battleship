@@ -16,6 +16,9 @@ class ShipPlacementView extends View {
         // Display who's turn to place ships
         this.whosTurn.textContent = `${player.name.slice(0, 1).toUpperCase() + player.name.slice(1)}\'s Turn`;
 
+        // Display ship Placement Page if hidden
+        this.shipPlacementPage.classList.remove('hidden');
+
         // Create sea layout
         this.createSea(this.sea);
 

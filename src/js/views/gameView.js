@@ -44,7 +44,8 @@ class GameView extends View {
         } else {
             const ship = player.gameboard.board[y][x];
             const img = document.createElement('img');
-            img.src = 'https://media.tenor.com/2FL76f6q7u8AAAAi/explosion.gif';
+            // img.src = 'https://media.tenor.com/2FL76f6q7u8AAAAi/explosion.gif';
+            img.src = 'src/imgs/explosion.gif';
             // img.width = '100px';
             target.appendChild(img);
             setTimeout(() => {
