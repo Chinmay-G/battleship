@@ -15,17 +15,16 @@ enterBattleBtn.addEventListener('click', function (e) {
     // e.preventDefault();
 
     const { player1Name, player2Name } = starterPageView.returnPlayerNames();
-    console.log(player1Name, player2Name);
-    controlShipPlacementMain();
+    controlShipPlacementMain(player1Name, player2Name);
 });
 
 let player1;
 let player2;
 
-function controlShipPlacementMain() {
+function controlShipPlacementMain(player1Name, player2Name) {
 
-    player1 = new Player('_', 'player1');
-    player2 = new Player('_', 'player2');
+    player1 = new Player('_', player1Name);
+    player2 = new Player('_', player2Name);
 
     shipPlacementView1.controlShipPlacement(player1, Ship);
 
@@ -51,7 +50,7 @@ function controlShipPlacementMain() {
 
 function controlGame() {
     // 1. render two seas
-    gameView.renderGameSeas();
+    gameView.renderGameSeas(player1.name, player2.name);
 
     // 2. Let players shoot alternatively till all of ships of one player is sunk and show the winner
     let turn = true; // Start from player 1's turn

@@ -5,8 +5,8 @@ const submitPlayersNameBtn = document.querySelector('.submitPlayersNameBtn');
 
 class StarterPageView {
     returnPlayerNames() {
-        const player1Name = player1Input.value ? player1Input.value : 'player1';
-        const player2Name = player2Input.value ? player2Input.value : 'player2';
+        const player1Name = player1Input.value ? player1Input.value.toLowerCase() : 'player1';
+        const player2Name = player2Input.value ? player2Input.value.toLowerCase() : 'player2';
         starterPage.classList.add('hidden');
         return { player1Name, player2Name };
     }

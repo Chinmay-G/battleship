@@ -1,5 +1,6 @@
 import View from "./view.js";
 import { getNext10thEl } from "../helper.js";
+import { carrierColor, battleshipColor, cruiserColor, destroyerColor } from "../config.js";
 
 class ShipPlacementView extends View {
 
@@ -93,7 +94,13 @@ class ShipPlacementView extends View {
             console.log('board - ', player.gameboard.board);
             const shipIcon = selectedEl.dataset.shipicon;
 
-            target.style.backgroundColor = 'rgb(231, 106, 106)';
+            let bgColor;
+            if (currShip.stats.shipLength === 5) bgColor = carrierColor;
+            if (currShip.stats.shipLength === 4) bgColor = battleshipColor;
+            if (currShip.stats.shipLength === 3) bgColor = cruiserColor;
+            if (currShip.stats.shipLength === 2) bgColor = destroyerColor;
+
+            target.style.backgroundColor = bgColor;
             target.textContent = shipIcon;
 
             let nextEl = target;
@@ -103,7 +110,7 @@ class ShipPlacementView extends View {
                 nextEl.style.borderRight = 'none';
                 for (let i = 1; i < +selectedEl.dataset.shiplength; i++) {
                     nextEl = nextEl.nextSibling;
-                    nextEl.style.backgroundColor = 'rgb(231, 106, 106)';
+                    nextEl.style.backgroundColor = bgColor;
                     nextEl.style.borderRight = 'none';
                     nextEl.style.borderLeft = 'none';
                     nextEl.textContent = shipIcon;
@@ -118,7 +125,7 @@ class ShipPlacementView extends View {
                 nextEl.style.borderBottom = 'none';
                 for (let i = 1; i < +selectedEl.dataset.shiplength; i++) {
                     nextEl = getNext10thEl(nextEl);
-                    nextEl.style.backgroundColor = 'rgb(231, 106, 106)';
+                    nextEl.style.backgroundColor = bgColor;
                     nextEl.style.borderTop = 'none';
                     nextEl.style.borderBottom = 'none';
                     nextEl.textContent = shipIcon;
@@ -162,7 +169,7 @@ class ShipPlacementView extends View {
 
     handleRandomizeBtn(player, Ship) {
         return function curriedFunc(e) {
-            const playerName = this.whosTurn.textContent.toLowerCase().slice(0, 7);
+            const playerName = this.whosTurn.textContent.toLowerCase().slice(0, -7);
             if (playerName != player.name)
                 return;
 
@@ -174,6 +181,7 @@ class ShipPlacementView extends View {
             seaBoxAll.forEach(seaBox => {
                 seaBox.style.backgroundColor = '';
                 seaBox.textContent = '';
+                seaBox.classList.remove('carrierIcon', 'battleshipIcon', 'cruiserIcon', 'destroyerIcon');
                 seaBox.style.border = '';
             });
 
@@ -195,9 +203,31 @@ class ShipPlacementView extends View {
                         const y = seaBox.dataset.y;
 
                         if (board[y][x] != null) {
+                            const currShip = board[y][x];
+
+                            let bgColor;
+                            let iconClass;
+                            if (currShip.stats.shipLength === 5) {
+                                bgColor = carrierColor;
+                                iconClass = 'carrierIcon';
+                            }
+                            if (currShip.stats.shipLength === 4) {
+                                bgColor = battleshipColor;
+                                iconClass = 'battleshipIcon';
+                            }
+                            if (currShip.stats.shipLength === 3) {
+                                bgColor = cruiserColor;
+                                iconClass = 'cruiserIcon';
+                            }
+                            if (currShip.stats.shipLength === 2) {
+                                bgColor = destroyerColor;
+                                iconClass = 'destroyerIcon';
+                            }
+
                             // console.log(board[y][x]);
-                            seaBox.style.backgroundColor = 'rgb(231, 106, 106)';
-                            seaBox.textContent = '+';
+                            seaBox.style.backgroundColor = bgColor;
+                            seaBox.classList.add(iconClass);
+                            // seaBox.textContent = '+';
 
                             if (board[y][x].stats.direction === 'horizontal') {
                                 seaBox.style.borderLeft = 'none';
@@ -219,7 +249,7 @@ class ShipPlacementView extends View {
 
     handleResetBtn(player) {
         return function curriedFunc(e) {
-            const playerName = this.whosTurn.textContent.toLowerCase().slice(0, 7);
+            const playerName = this.whosTurn.textContent.toLowerCase().slice(0, -7);
             if (playerName != player.name)
                 return;
 
