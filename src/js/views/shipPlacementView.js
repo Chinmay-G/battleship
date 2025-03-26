@@ -1,5 +1,5 @@
 import View from "./view.js";
-import { getNext10thEl } from "../helper.js";
+import { getNext10thEl, updateSeaUI } from "../helper.js";
 import { carrierColor, battleshipColor, cruiserColor, destroyerColor } from "../config.js";
 
 class ShipPlacementView extends View {
@@ -92,49 +92,53 @@ class ShipPlacementView extends View {
             // Place ship in player's board
             player.gameboard.placeShip(currShip, [x, y]);
             console.log('board - ', player.gameboard.board);
+            const board = player.gameboard.board;
             const shipIcon = selectedEl.dataset.shipicon;
 
-            let bgColor;
-            if (currShip.stats.shipLength === 5) bgColor = carrierColor;
-            if (currShip.stats.shipLength === 4) bgColor = battleshipColor;
-            if (currShip.stats.shipLength === 3) bgColor = cruiserColor;
-            if (currShip.stats.shipLength === 2) bgColor = destroyerColor;
+            // Update Sea's display
+            updateSeaUI(board);
+            // let bgColor;
+            // if (currShip.stats.shipLength === 5) bgColor = carrierColor;
+            // if (currShip.stats.shipLength === 4) bgColor = battleshipColor;
+            // if (currShip.stats.shipLength === 3) bgColor = cruiserColor;
+            // if (currShip.stats.shipLength === 2) bgColor = destroyerColor;
 
-            target.style.backgroundColor = bgColor;
-            target.textContent = shipIcon;
+            // target.style.backgroundColor = bgColor;
+            // target.textContent = shipIcon;
 
-            let nextEl = target;
+            // let nextEl = target;
 
-            if (currShip.stats.direction === 'horizontal') {
+            // if (currShip.stats.direction === 'horizontal') {
 
-                nextEl.style.borderRight = 'none';
-                for (let i = 1; i < +selectedEl.dataset.shiplength; i++) {
-                    nextEl = nextEl.nextSibling;
-                    nextEl.style.backgroundColor = bgColor;
-                    nextEl.style.borderRight = 'none';
-                    nextEl.style.borderLeft = 'none';
-                    nextEl.textContent = shipIcon;
-                }
+            //     nextEl.style.borderRight = 'none';
+            //     for (let i = 1; i < +selectedEl.dataset.shiplength; i++) {
+            //         nextEl = nextEl.nextSibling;
+            //         nextEl.style.backgroundColor = bgColor;
+            //         nextEl.style.borderRight = 'none';
+            //         nextEl.style.borderLeft = 'none';
+            //         nextEl.textContent = shipIcon;
+            //     }
 
-                // Clearing the placed ships from "shipHarbour"
-                selectedEl.style.display = 'none';
-            }
+            //     // Clearing the placed ships from "shipHarbour"
+            //     selectedEl.style.display = 'none';
+            // }
 
-            if (currShip.stats.direction === 'vertical') {
+            // if (currShip.stats.direction === 'vertical') {
 
-                nextEl.style.borderBottom = 'none';
-                for (let i = 1; i < +selectedEl.dataset.shiplength; i++) {
-                    nextEl = getNext10thEl(nextEl);
-                    nextEl.style.backgroundColor = bgColor;
-                    nextEl.style.borderTop = 'none';
-                    nextEl.style.borderBottom = 'none';
-                    nextEl.textContent = shipIcon;
-                }
+            //     nextEl.style.borderBottom = 'none';
+            //     for (let i = 1; i < +selectedEl.dataset.shiplength; i++) {
+            //         nextEl = getNext10thEl(nextEl);
+            //         nextEl.style.backgroundColor = bgColor;
+            //         nextEl.style.borderTop = 'none';
+            //         nextEl.style.borderBottom = 'none';
+            //         nextEl.textContent = shipIcon;
+            //     }
 
-                // Clearing the placed ships from "shipHarbour"
-                selectedEl.style.display = 'none';
-            }
+            //     // Clearing the placed ships from "shipHarbour"
+            //     selectedEl.style.display = 'none';
+            // }
 
+            selectedEl.style.display = 'none';
             currShip = null;
             selectedEl = null;
         }
@@ -193,54 +197,9 @@ class ShipPlacementView extends View {
                 player.gameboard.placeShipRandomly(currShip);
             }
 
+            // Update Sea's display
+            updateSeaUI(board);
 
-            for (let i = 0; i < 10; i++) {
-                for (let j = 0; j < 10; j++) {
-
-                    // seaBoxAll.forEach(seaBox => {
-                    for (let seaBox of seaBoxAll) {
-                        const x = seaBox.dataset.x;
-                        const y = seaBox.dataset.y;
-
-                        if (board[y][x] != null) {
-                            const currShip = board[y][x];
-
-                            let bgColor;
-                            let iconClass;
-                            if (currShip.stats.shipLength === 5) {
-                                bgColor = carrierColor;
-                                iconClass = 'carrierIcon';
-                            }
-                            if (currShip.stats.shipLength === 4) {
-                                bgColor = battleshipColor;
-                                iconClass = 'battleshipIcon';
-                            }
-                            if (currShip.stats.shipLength === 3) {
-                                bgColor = cruiserColor;
-                                iconClass = 'cruiserIcon';
-                            }
-                            if (currShip.stats.shipLength === 2) {
-                                bgColor = destroyerColor;
-                                iconClass = 'destroyerIcon';
-                            }
-
-                            // console.log(board[y][x]);
-                            seaBox.style.backgroundColor = bgColor;
-                            seaBox.classList.add(iconClass);
-                            // seaBox.textContent = '+';
-
-                            if (board[y][x].stats.direction === 'horizontal') {
-                                seaBox.style.borderLeft = 'none';
-                                seaBox.style.borderRight = 'none';
-                            }
-                            if (board[y][x].stats.direction === 'vertical') {
-                                seaBox.style.borderTop = 'none';
-                                seaBox.style.borderBottom = 'none';
-                            }
-                        }
-                    }
-                }
-            }
             // Clear all ships from display
             this.shipsEl.forEach(shipEl => shipEl.style.display = 'none');
             console.log(board);

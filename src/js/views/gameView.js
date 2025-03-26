@@ -1,4 +1,6 @@
 import View from "./view.js";
+import { styleSeaBoxOnHit } from "../helper.js";
+
 const whosTurn = document.querySelector('.gamePage-WhosTurn');
 const player1Board = document.querySelector('.player1Board');
 const player2Board = document.querySelector('.player2Board');
@@ -41,18 +43,19 @@ class GameView extends View {
 
         player.gameboard.receiveAttack([x, y]);
 
-        let missedIcon;
-        const randomNum = Math.random();
-        // if (randomNum <= 0.25) missedIcon = '🪼';
-        if (randomNum <= 0.5) missedIcon = '🌊';
-        if (randomNum > 0.5 && randomNum <= 0.75) missedIcon = '🐬';
-        if (randomNum > 0.75) missedIcon = '🐳';
+        let missedIcon = 'x';
+        // const randomNum = Math.random();
+        // // if (randomNum <= 0.25) missedIcon = '🪼';
+        // if (randomNum <= 0.5) missedIcon = '🌊';
+        // if (randomNum > 0.5 && randomNum <= 0.75) missedIcon = '🐬';
+        // if (randomNum > 0.75) missedIcon = '🐳';
 
         if (player.gameboard.board[y][x] === null) {
             // target.style.backgroundColor = 'rgb(195, 195, 255)';
             target.textContent = missedIcon;
+            target.style.color = 'whitesmoke';
         } else {
-            const ship = player.gameboard.board[y][x];
+            const currShip = player.gameboard.board[y][x];
             const img = document.createElement('img');
             // img.src = 'https://media.tenor.com/2FL76f6q7u8AAAAi/explosion.gif';
             img.src = 'src/imgs/explosion.gif';
@@ -61,9 +64,10 @@ class GameView extends View {
             setTimeout(() => {
                 target.removeChild(img)
 
-                target.style.backgroundColor = ship.stats.backgroundColor;
-                target.textContent = `${ship.stats.shipIcon}`;
-                target.style.border = 'none';
+                // target.style.backgroundColor = ship.stats.backgroundColor;
+                // target.textContent = `${ship.stats.shipIcon}`;
+                // target.style.border = 'none';
+                styleSeaBoxOnHit(target, currShip);
             }, 1000);
         }
         whosTurn.textContent = `${player.name.slice(0, 1).toUpperCase() + player.name.slice(1)}'s Turn!`;
