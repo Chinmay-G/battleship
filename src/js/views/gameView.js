@@ -1,5 +1,6 @@
 import View from "./view.js";
 import { styleSeaBoxOnHit } from "../helper.js";
+import { iconClasses } from "../config.js";
 
 const whosTurn = document.querySelector('.gamePage-WhosTurn');
 const player1Board = document.querySelector('.player1Board');
@@ -37,7 +38,7 @@ class GameView extends View {
         const y = +target.dataset.y;
 
         // if (target.style.backgroundColor === 'rgb(195, 195, 255)' || target.style.backgroundColor === 'rgb(231, 106, 106)') {
-        if (!(target.textContent === '')) {
+        if (!(target.textContent === '') || iconClasses.some(iconClass => target.classList.contains(iconClass))) {
             return true;
         }
 

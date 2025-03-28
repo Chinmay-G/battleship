@@ -5,14 +5,13 @@ import { shipPlacementView1, shipPlacementView2 } from "./views/shipPlacementVie
 import gameView from "./views/gameView.js";
 
 const enterBattleBtn = document.querySelector('.submitPlayersNameBtn');
-
 const shipPlacementPage = document.querySelector('.shipPlacementPage');
 const readyBtn = document.querySelector('.shipPlacementPage-btn-ready');
 const gamePage = document.querySelector('.gamePage');
 
 // function 
 enterBattleBtn.addEventListener('click', function (e) {
-    // e.preventDefault();
+    e.preventDefault();
 
     const { player1Name, player2Name } = starterPageView.returnPlayerNames();
     controlShipPlacementMain(player1Name, player2Name);

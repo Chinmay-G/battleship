@@ -87,7 +87,7 @@ body {
     padding-bottom: 30px;
 }
 
-.submitPlayersNameBtn {
+.submitPlayersNameBtn, button {
     width: 150px;
     height: 40px;
     border: none;
@@ -131,28 +131,90 @@ body {
 
 /* ShipPlacementPage */
 .shipPlacementPage {
-    min-width: 100vw;
+    width: 100%;
     min-height: 100vh;
 
     background-image: url("../imgs/shipPlacementPageBackground1.gif");
     background-repeat: no-repeat;
     background-size: 100vw 100%;
 
+    display: flex;
+    justify-content: center;
+}
+
+.shipPlacementPage-Container {
+    width: 90%;
+    /* margin: 3vw; */
+    /* padding: 40px; */
+    background-color: rgba(245, 245, 245, 0.7);
+    /* border-radius: 20px; */
+
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     justify-items: center;
-    /* display: none; */
 }
 
 .shipPlacementPage-Heading {
-    grid-column: 1 / 3;
-    /* height: 130px; */
-}
-.shipPlacementPage-Instruction {
-    text-align: center;
-    grid-column: 1 / 3;
+    width: 100%;
     height: 130px;
+    background-color: black;
+    
+    color: whitesmoke;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    grid-column: 1 / 3;
 }
+
+.shipPlacementPage-Subheading {
+    width: 100%;
+    height: 130px;
+    /* background-color: whitesmoke; */
+    color: black;
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* padding: none; */
+
+    margin-bottom: 30px;
+    
+    grid-column: 1 / 3;
+    opacity: 80%;
+}
+
+.whosTurn {
+    background-color: black;
+    width: 100%;
+    height: 65%;
+    border-bottom: 5px solid whitesmoke ;
+
+    color: whitesmoke;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.shipPlacementPage-Subheading a {
+    background-color: whitesmoke;
+    align-items: center;
+    width: 13%;
+    height: 35%;
+
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+
+    color: black;
+    text-decoration: none;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 
 .shipsAtHarbour {
     display: grid;
@@ -171,7 +233,7 @@ body {
     height: 50px;
     /* border: 2px solid black; */
     border-radius: 3px;
-    padding-left: 2px;
+    padding-left: 7px;
     background-color: rgb(231, 106, 106);
     /* position: absolute; */
     z-index: 2;
@@ -219,6 +281,13 @@ body {
     /* grid-template-columns: repeat(2, 1fr); */
 }
 
+.shipPlacementPage-Options {
+    margin: 80px 0 40px 0;
+    grid-column: 1 / 3;
+    display: flex;
+    gap: 200px
+}
+
 /* GamePage */
 .gamePage {
     display: grid;
@@ -249,6 +318,7 @@ body {
     display: none;
 }
 
+/* Icons */
 .carrierIcon::before {
     content: url('../imgs/carrierIcon.png');
     width: 20px;

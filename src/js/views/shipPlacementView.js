@@ -1,6 +1,5 @@
 import View from "./view.js";
 import { getNext10thEl, updateSeaUI } from "../helper.js";
-import { carrierColor, battleshipColor, cruiserColor, destroyerColor } from "../config.js";
 
 class ShipPlacementView extends View {
 
