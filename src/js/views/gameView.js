@@ -37,6 +37,7 @@ class GameView extends View {
         const x = +target.dataset.x;
         const y = +target.dataset.y;
 
+        console.log(iconClasses.some(iconClass => target.classList.contains(iconClass)));
         // if (target.style.backgroundColor === 'rgb(195, 195, 255)' || target.style.backgroundColor === 'rgb(231, 106, 106)') {
         if (!(target.textContent === '') || iconClasses.some(iconClass => target.classList.contains(iconClass))) {
             return true;

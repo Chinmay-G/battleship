@@ -64,8 +64,12 @@ function controlGame() {
 
         // Shoot the player
         let alreadyAttacked = gameView.shoot(player, target);
+        console.log(alreadyAttacked);
         if (alreadyAttacked === true) {
-            gameView.addHandlerAttackSea(handleClickOnSea);
+            // gameView.addHandlerAttackSea(handleClickOnSea);
+            if (!turn)
+                gameView.player1Sea.addEventListener('click', handleClickOnSea);
+            else gameView.addHandlerAttackSea(handleClickOnSea);
             return;
         }
 
@@ -81,6 +85,8 @@ function controlGame() {
 
         // Change turns
         turn = !turn;
+        console.log('Turn - ', turn);
+
 
         if (!turn)
             gameView.player1Sea.addEventListener('click', handleClickOnSea);

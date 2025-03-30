@@ -107,9 +107,9 @@ body {
     border-radius: 7px; */
     display: grid;
     grid-template-columns: repeat(10, 1fr);
-    background-color: rgb(195, 195, 255);
+    /* background-color: rgb(195, 195, 255);
     background-color: rgb(100, 100, 255);
-    background-color: rgb(152, 174, 194);
+    background-color: rgb(152, 174, 194); */
     background-color: black;
     opacity: 85%;
 }
@@ -125,7 +125,7 @@ body {
 }
 
 .seaBox:hover {
-    background-color: bisque;
+    background-color:burlywood;
     cursor: crosshair;
 }
 
@@ -248,11 +248,11 @@ body {
     padding-left: 1px;
     font-size:smaller;
 }
-.grab:hover {
+.ship:hover {
     cursor: grab;
 }
 
-.grab:active {
+.ship:active {
     cursor:grabbing;
 }
 
@@ -290,6 +290,13 @@ body {
 
 /* GamePage */
 .gamePage {
+    width: 100%;
+    min-height: 100vh;
+
+    background-image: url("../imgs/shipPlacementPageBackground1.gif");
+    background-repeat: no-repeat;
+    background-size: 100vw 100%;
+
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     justify-items: center;
