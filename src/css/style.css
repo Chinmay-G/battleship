@@ -281,11 +281,14 @@ body {
     /* grid-template-columns: repeat(2, 1fr); */
 }
 
-.shipPlacementPage-Options {
+.options {
     margin: 80px 0 40px 0;
     grid-column: 1 / 3;
     display: flex;
     gap: 200px
+}
+
+.shipPlacementPage-Options {
 }
 
 /* GamePage */
@@ -293,9 +296,10 @@ body {
     width: 100%;
     min-height: 100vh;
 
-    background-image: url("../imgs/gamePageBackground.gif");
+    background-image: url("../imgs/gamePageBackground1.gif");
     background-repeat: no-repeat;
     background-size: 100% 100%;
+    /* background-color: black; */
 
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -344,16 +348,17 @@ body {
     opacity: 85%;
 }
 
-.player1Sea .seaBox, .player2Sea .seaBox {
+/* .player1Sea .seaBox, .player2Sea .seaBox {
     opacity: 100%;
-}
-
-
-.shotMissed {
+    } */
+    
+    
+/* .shotMissed {
     background-color: bisque;
-}
-
-.restart-btn {
+} */
+    
+.gamePage-Options {
+    grid-column: 1 / 3;
 
 }
 
