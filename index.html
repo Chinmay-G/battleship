@@ -44,7 +44,7 @@
                 <!-- <h4>Drag and drop to place ships</h4>
                 <h5>'Double click' on ships to rotate them before placing</h5> -->
                 <h2 class="whosTurn">Player 1's Turn</h2>
-                <a href=".shipPlacementPage-Subheading">Instructions 🖱️</a>
+                <a href="#instructions">Instructions 🖱️</a>
             </div>
 
             <div class="shipsAtHarbour">
@@ -88,6 +88,16 @@
                 <button class="shipPlacementPage-btn shipPlacementPage-btn-ready">Ready to Play!</button>
                 <button class="shipPlacementPage-btn shipPlacementPage-btn-reset">Reset</button>
             </div>
+
+            <div class="instructions" id="instructions">
+                <h3>Instructions</h3>
+                <li>"Double Click" on the ship to Rotate before placing.</li>
+                <li>Place the ships vertically or horizontally by dragging and dropping them into black sea.</li>
+                <li>When done, click "Ready to Play" and pass the device to other player if they haven't placed yet.
+                </li>
+                <li>If you're new,.. Hint: Do Not Show Your Ship Placement to You're Oppopnent.</li>
+                <li>Lastly, Enjoy the Battle!</li>
+            </div>
         </div>
     </div>
 
@@ -101,6 +111,17 @@
         <div class="player2Sea"></div>
         <div class="options gamePage-Options">
             <button class="restart-btn">Restart Game</button>
+        </div>
+    </div>
+
+    <!-- Show Winner -->
+    <div class="showWinnerBackground hidden">
+        <div class="showWinnerBox">
+            <h2 class="whoWon">Player Wins!</h2>
+            <div class="options showWinner-Options">
+                <button class="restart-btn">Restart Game</button>
+                <button class="close-btn">close</button>
+            </div>
         </div>
     </div>
 </body>

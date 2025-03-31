@@ -5,7 +5,11 @@ import { iconClasses } from "../config.js";
 const whosTurn = document.querySelector('.gamePage-WhosTurn');
 const player1Board = document.querySelector('.player1Board');
 const player2Board = document.querySelector('.player2Board');
-const restartBtn = document.querySelector('.restart-btn');
+const restartBtns = document.querySelectorAll('.restart-btn');
+
+const showWinnerBackground = document.querySelector('.showWinnerBackground');
+const whoWon = document.querySelector('.whoWon');
+const closeBtn = document.querySelector('.close-btn');
 
 class GameView extends View {
     player1Sea = document.querySelector('.player1Sea');
@@ -17,9 +21,9 @@ class GameView extends View {
         player2Board.textContent = `${player2Name.slice(0, 1).toUpperCase() + player2Name.slice(1)}'s Board`;
         this.createSea(this.player1Sea);
         this.createSea(this.player2Sea);
-        restartBtn.addEventListener('click', function (e) {
+        restartBtns.forEach(restartBtn => restartBtn.addEventListener('click', function (e) {
             window.location.reload();
-        })
+        }))
     }
 
     // Recieve Attack
@@ -73,6 +77,22 @@ class GameView extends View {
             }, 1000);
         }
         whosTurn.textContent = `${player.name.slice(0, 1).toUpperCase() + player.name.slice(1)}'s Turn!`;
+    }
+
+    showWinner(player1, player2, playerName) {
+        showWinnerBackground.classList.remove('hidden');
+        showWinnerBackground.style.backgroundColor = 'rgba(255, 248, 220, 0.5)';
+        const winner = player1.name === playerName ? player2.name : player1.name;
+        whoWon.textContent = `${winner.slice(0, 1).toUpperCase() + winner.slice(1)} Wins ☠️!!`;
+
+        closeBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            showWinnerBackground.classList.add('hidden');
+        })
+        showWinnerBackground.addEventListener('click', function (e) {
+            e.preventDefault();
+            showWinnerBackground.classList.add('hidden');
+        })
     }
 }
 

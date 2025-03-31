@@ -11,6 +11,7 @@ class ShipPlacementView extends View {
     readyBtn = document.querySelector('.shipPlacementPage-btn-ready');
     randomizeBtn = document.querySelector('.shipPlacementPage-btn-randomize');
     resetBtn = document.querySelector('.shipPlacementPage-btn-reset');
+    buttons = document.querySelectorAll('button');
 
     controlShipPlacement(player, Ship) {
         // Display who's turn to place ships

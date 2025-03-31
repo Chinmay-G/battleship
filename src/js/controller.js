@@ -29,6 +29,7 @@ function controlShipPlacementMain(player1Name, player2Name) {
 
     readyBtn.addEventListener('click', function (e) {
         e.preventDefault();
+        window.scrollTo(0, 0);
 
         // When player1 has finished placing and it's player 2's turn next
         if (player1.gameboard.ships.length === 5 && player2.gameboard.ships.length === 0) {
@@ -79,7 +80,7 @@ function controlGame() {
         // When one of either player's all ships are sunk, end game and show winner
         if (player.gameboard.isAllSunk() === true) {
             console.log(player.name, 'Loses!!');
-            // gameView.showWinner(player);
+            gameView.showWinner(player1, player2, player.name);
             return;
         }
 
