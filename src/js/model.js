@@ -68,22 +68,22 @@ export class Gameboard {
 
         this.ships.push(ship);
 
-        if (ship.stats.shipLength === 5) {
-            ship.stats.shipIcon = '⛴️'
-            ship.stats.backgroundColor = 'black'
-        };
-        if (ship.stats.shipLength === 4) {
-            ship.stats.shipIcon = '🛳️'
-            ship.stats.backgroundColor = 'rgb(255, 110, 25)'
-        };
-        if (ship.stats.shipLength === 3) {
-            ship.stats.shipIcon = '🛥️'
-            ship.stats.backgroundColor = 'orange'
-        };
-        if (ship.stats.shipLength === 2) {
-            ship.stats.shipIcon = '🚤'
-            ship.stats.backgroundColor = 'yellow'
-        };
+        // if (ship.stats.shipLength === 5) {
+        //     ship.stats.shipIcon = '⛴️'
+        //     ship.stats.backgroundColor = 'black'
+        // };
+        // if (ship.stats.shipLength === 4) {
+        //     ship.stats.shipIcon = '🛳️'
+        //     ship.stats.backgroundColor = 'rgb(255, 110, 25)'
+        // };
+        // if (ship.stats.shipLength === 3) {
+        //     ship.stats.shipIcon = '🛥️'
+        //     ship.stats.backgroundColor = 'orange'
+        // };
+        // if (ship.stats.shipLength === 2) {
+        //     ship.stats.shipIcon = '🚤'
+        //     ship.stats.backgroundColor = 'yellow'
+        // };
 
         if (ship.stats.direction === 'horizontal') {
             for (let i = 0; i < ship.stats.shipLength; i++) {
